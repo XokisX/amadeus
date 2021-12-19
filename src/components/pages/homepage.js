@@ -11,16 +11,22 @@ class Home extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            show: false
+            show: false,
+            currentPage:1,
+            currentNumberOnPage:5,
         }
     }
 
     componentDidMount(){
-        this.server_api.get_news().then((data)=>{
+        this.server_api.get_news(this.state.currentPage,this.state.currentNumberOnPage)
+        .then((data)=>{
             this.setState({
                 data: data
             })
             console.log(data);
+        })
+        .catch((error)=>{
+            console.log(`Error fetch with getNews`, error)
         })
     }
 

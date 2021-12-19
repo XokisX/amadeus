@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
+    BrowserRouter as Router,
+    Switch,
+    withRouter,
+    Route,
+    Link
 } from "react-router-dom";
 import Home from '../pages/homepage';
 import Header from '../header/header';
@@ -16,55 +17,175 @@ import Admin from '../pages/adminpage'
 import AdminTrainers from '../pages/adminpage_trainers'
 import AdminUsers from '../pages/adminpage_users'
 import AdminCalls from '../pages/adminpage_calls'
+import TrainerPage from '../pages/trainerpage';
 
-    
+
+import Server_api from '../services/server_api';
+import Global_variables from '../services/global_variables';
+import Cookie_manager from '../services/cookie_manager';
+
 
 
 
 
 
 class App extends React.Component {
+    server_api = new Server_api();
+    constructor(props) {
+        super(props);
+        this.state = {
+            userInfo: null,
+            isVisibleHeader: false,
+        }
+    }
+
+    componentWillMount() {
+        if (Cookie_manager.get(Global_variables.loginCookieName) != null) {
+            this.getUserInfo();
+            this.setState({ isVisibleHeader: true })
+        } else if (document.location.pathname !== '/enter') {
+            this.props.history.push('/enter')
+        }
+    }
 
 
-  render () {
-    return (
-      <div className="Main">
-                <Router>
-                    <Header/>
+    componentWillUpdate() {
+        if (Cookie_manager.get(Global_variables.loginCookieName) != null) {
+        } else if (document.location.pathname !== '/enter') {
+            this.props.history.push('/enter')
+        }
+    }
+
+    componentWillUnmount() {
+
+    }
+
+    getUserInfo = () => {
+        this.server_api.getUserInfo()
+            .then((data) => {
+                if (data.StatusCode === 400) {
+                    Cookie_manager.clearAll();
+                    this.props.history.push('/enter')
+                } else {
+                    this.setState({ userInfo: data })
+                }
+            })
+            .catch((error) => {
+                console.log(`error with fetch userInfo:`, error)
+            })
+    }
+
+    insertRoutes() {
+        let { userInfo } = this.state;
+        if (userInfo != null) {
+            switch (userInfo.role) {
+                case 1: {
+                    return (
+                        <>
+                            <Route path='/trainers'>
+                                <Trainers />
+                            </Route>
+
+                            <Route path='/photos'>
+                                <Photos />
+                            </Route>
+
+                            <Route path='/prices'>
+                                <Prices />
+                            </Route>
+                        </>
+                    )
+                    break;
+                }
+
+                case 2: {
+                    return (
+                        <>
+                            <Route path='/trainer'>
+                                <Admin />
+                            </Route>
+
+                        </>
+                    )
+                    break;
+                }
+
+                case 3: {
+                    return (
+                        <>
+                            <Route path='/admin'>
+                                <Admin />
+                            </Route>
+
+                            <Route path='/admin_trainers'>
+                                <AdminTrainers />
+                            </Route>
+
+                            <Route path='/admin_users'>
+                                <AdminUsers />
+                            </Route>
+
+                            <Route path='/admin_calls'>
+                                <AdminCalls />
+                            </Route>
+                        </>
+                    )
+                    break;
+                }
+                default: { return null; }
+            }
+        }
+        return null;
+    }
+
+    saveState = (obj) => {
+        this.setState({ obj })
+    }
+
+    handleOnLogin =(data) =>{
+        this.getUserInfo();
+        this.setState(data)
+    }
+
+    
+    handleOnLogOut=(data) =>{
+        this.getUserInfo();
+        this.setState(data)
+    }
+
+    render() {
+        let { userInfo, isVisibleHeader } = this.state;
+        return (
+            <div className="Main">
+                {isVisibleHeader && 
+                <Header 
+                    userInfo={userInfo} 
+                    saveState={this.saveState}
+                    handleOnLogOut={this.handleOnLogOut}
+                     />}
+                <React.StrictMode>
+
                     <Switch>
                         <Route exact path='/'>
-                            <Home/>
+                            <Home />
+
                         </Route>
-                        <Route exact path='/trainers'>
-                            <Trainers/>
+                        {this.insertRoutes()}
+                        <Route path='/enter'>
+                            <Enter
+                                getUserInfo={this.getUserInfo}
+                                saveState={this.saveState}
+                                handleOnLogin={this.handleOnLogin}
+                            />
                         </Route>
-                        <Route exact path='/photos'>
-                            <Photos/>
-                        </Route>
-                        <Route exact path='/prices'>
-                            <Prices/>
-                        </Route>
-                        <Route exact path='/enter'>
-                            <Enter/>
-                        </Route>
-                        <Route exact path='/admin'>
-                            <Admin/>
-                        </Route>
-                        <Route exact path='/admin_trainers'>
-                            <AdminTrainers/>
-                        </Route>
-                        <Route exact path='/admin_users'>
-                            <AdminUsers/>
-                        </Route>
-                        <Route exact path='/admin_calls'>
-                            <AdminCalls/>
-                        </Route>
+
+
                     </Switch>
-                </Router>
+                </React.StrictMode>
             </div>
-    );
-  }
+        );
+    }
 }
 
-export default App;
+export default withRouter(App);
 

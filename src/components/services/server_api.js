@@ -1,105 +1,219 @@
-const SERVER = 'https://localhost:44336/'
+import Cookie_manager from './cookie_manager';
+import Global_variables from './global_variables';
 
-class Server_api{
-    async get_news(api, data){
-        try{
-            const res = await fetch(`${SERVER}home`,{
-                method:"GET",
-                headers:{
-                    'Content-Type':'application/json',
-                    'Access-type':'application/json'
-                }
-                })
-                if(!res.ok){
-                    throw 'Error with review'
-                }
-                return res.json();
+const SERVER = 'https://2e60-46-216-224-252.ngrok.io/'
 
-        }catch(error){
-            
+
+class Server_api {
+
+    async getData(api, params='') {
+        const res = await fetch(`${SERVER}${api}${params}`, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-type': 'application/json',
+               'Access-Control-Allow-Origin':'*',
+               'Access-Control-Allow-Headers':'*',
+                'Authorization': `Bearer ${Cookie_manager.get(Global_variables.loginCookieName)}`,
+            }
+        })
+        if (!res.ok) {
+            throw `Error with ${api}`
         }
-        
+        return res.json();
     }
 
-    async get_trainers(api, data){
-        try{
-            const res = await fetch(`${SERVER}trainers`,{
-                method:"GET",
-                headers:{
-                    'Content-Type':'application/json',
-                    'Access-type':'application/json'
-                }
-                })
-                if(!res.ok){
-                    throw 'Error with review'
-                }
-                return res.json();
+    async postData(api, data=null) {
+            const res = await fetch(`${SERVER}${api}`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-type': 'application/json',
+                    'Authorization': `Bearer ${Cookie_manager.get(Global_variables.loginCookieName)}`,
+                },
+                body: JSON.stringify(data)
+            })
+            if (!res.ok) {
+                throw `Error with ${api}`
+            }
+            return res.json();
 
-        }catch(error){
-            
-        }
-        
     }
 
-    async get_trainersinf(api, data){
-        try{
-            const res = await fetch(`${SERVER}trainers_inf`,{
-                method:"GET",
-                headers:{
-                    'Content-Type':'application/json',
-                    'Access-type':'application/json'
-                }
-                })
-                if(!res.ok){
-                    throw 'Error with review'
-                }
-                return res.json();
+    async deleteData(api, id) {
+            const res = await fetch(`${SERVER}${api}/?id=${id}`, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-type': 'application/json',
+                    'Authorization': `Bearer ${Cookie_manager.get(Global_variables.loginCookieName)}`,
+                },
+            })
+            if (!res.ok) {
+                throw `Error with ${api}`
+            }
+            return res.json();
 
-        }catch(error){
-            
-        }
-        
     }
 
-    async add_call(api, data){
-        try{
-            const res = await fetch(`${SERVER}addCall`,{
-                method:"POST",
-                headers:{
-                    'Content-Type':'application/json',
-                    'Access-type':'application/json'
-                }
-                })
-                if(!res.ok){
-                    throw 'Error with review'
-                }
-                return res.json();
+    async putData(api, data) {
+            const res = await fetch(`${SERVER}${api}`, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-type': 'application/json',
+                    'Authorization': `Bearer ${Cookie_manager.get(Global_variables.loginCookieName)}`,
+                },
+                body: JSON.stringify(data)
+            })
+            if (!res.ok) {
+                throw `Error with ${api}`
+            }
+            return res.json();
+    }
 
-        }catch(error){
-            
+
+    async get_news(api, data) {
+        try {
+            const res = await fetch(`${SERVER}home`, {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-type': 'application/json'
+                }
+            })
+            if (!res.ok) {
+                throw 'Error with review'
+            }
+            return res.json();
+
+        } catch (error) {
+
+        }
+
+    }
+
+    async get_trainers(api, data) {
+        try {
+            const res = await fetch(`${SERVER}trainers`, {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-type': 'application/json'
+                }
+            })
+            if (!res.ok) {
+                throw 'Error with review'
+            }
+            return res.json();
+
+        } catch (error) {
+
+        }
+
+    }
+
+    async get_trainersinf(api, data) {
+        try {
+            const res = await fetch(`${SERVER}trainers_inf`, {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-type': 'application/json'
+                }
+            })
+            if (!res.ok) {
+                throw 'Error with review'
+            }
+            return res.json();
+
+        } catch (error) {
+
+        }
+
+    }
+
+    async add_call(api, data) {
+        try {
+            const res = await fetch(`${SERVER}addCall`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-type': 'application/json'
+                }
+            })
+            if (!res.ok) {
+                throw 'Error with review'
+            }
+            return res.json();
+
+        } catch (error) {
+
         }
     }
 
-    async add_trainer(api, data){
-        try{
-            const res = await fetch(`${SERVER}addTrainer`,{
-                method:"POST",
-                headers:{
-                    'Content-Type':'application/json',
-                    'Access-type':'application/json'
+    async add_trainer(api, data) {
+        try {
+            const res = await fetch(`${SERVER}addTrainer`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-type': 'application/json'
                 }
-                })
-                if(!res.ok){
-                    throw 'Error with review'
-                }
-                return res.json();
+            })
+            if (!res.ok) {
+                throw 'Error with review'
+            }
+            return res.json();
 
-        }catch(error){
-            
+        } catch (error) {
+
         }
     }
 
-   
+    async loginUser(data) {
+        return this.postData('Account/Login', data)
+    }
+
+    async registerUser(data) {
+        return this.postData('Account/Register', data)
+    }
+
+    async getUserInfo() {
+        return this.getData('getUser')
+    }
+
+    async addTrainer(data) {
+        return this.postData('addTrainer',data)
+    }
+
+    async deleteUser(id) {
+        return this.deleteData('deleteUser/',`${id}`)
+    }
+
+    async editTrainer(data) {
+        return this.putData('editTrainer',data)
+    }
+
+    async editUser(data) {
+        return this.putData('editUser',data)
+    }
+    
+    async deleteUser(id) {
+        return this.deleteData('deleteUser',id)
+    }
+
+    async addNews(data) {
+        return this.postData('addNews',data)
+    }
+
+    async deleteNews(id) {
+        return this.deleteData('deleteNews',id)
+    }
+
+    async getTrainers(){
+        return this.getData('trainers')
+    }
 }
 
 export default Server_api;
