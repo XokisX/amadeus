@@ -43,7 +43,7 @@ const EditTrainer = props => {
     }
 
     const handleSubmit = () =>{
-        server_api.editTrainer({text:descr,id:props.id})
+        server_api.editTrainer({TrainerDiscription:descr,id:props.id})
         .then((data)=>{
             console.log(data);
             props.getTrainers();

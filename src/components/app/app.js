@@ -18,6 +18,7 @@ import AdminTrainers from '../pages/adminpage_trainers'
 import AdminUsers from '../pages/adminpage_users'
 import AdminCalls from '../pages/adminpage_calls'
 import TrainerPage from '../pages/trainerpage';
+import AddSchedule from '../pages/add_schedule';
 
 
 import Server_api from '../services/server_api';
@@ -127,6 +128,10 @@ class App extends React.Component {
 
                             <Route path='/admin_calls'>
                                 <AdminCalls />
+                            </Route>
+
+                            <Route path='/admin_schedule'>
+                                <AddSchedule />
                             </Route>
                         </>
                     )

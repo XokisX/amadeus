@@ -1,4 +1,4 @@
-.EditUser_Main{
+.AddSchedule_Main{
     height: 100vh;
     width: 100vw;
     background-color: rgba(0, 0, 0, 0.4);
@@ -10,49 +10,33 @@
     justify-content: center;
 }
 
-.EditUser_content{
+.AddSchedule_content{
     padding: 30px;
     border-radius: 12px;
     background-color: #f7f2e8;
-    height: 500px;
+    height: 400px;
     width: 600px;
     padding-top: 10px;
 
 }
 
-.EditUser_Info{
-    height: 150px;
-    width: 600px;
+.AddSchedule_Info{
     font-size: 20px;
 
 }
 
-.EditUser_Input_blok{
-    width: 550px;
-}
 
-.EditUser_Input{
-    height: 50px;
-    width: 550px;
-    background-color: #ebd18e67;
-    border: none;
-    font-size: 18px;
-}
-
-.EditUser_Add_button{
+.AddSchedule_Add_button{
     background-color: #F4ECDC;
     border-radius: 50px;
     width: 250px;
     height: 50px;
+    margin-left: 140px;
+    margin-top: 20px;
     font-size: 20px;
-    margin: auto;
-    display: block;
 
 }
 
 .Close_button{
     text-align: right;
-
 }
-
-

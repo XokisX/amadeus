@@ -1,7 +1,7 @@
 import Cookie_manager from './cookie_manager';
 import Global_variables from './global_variables';
 
-const SERVER = 'https://2e60-46-216-224-252.ngrok.io/'
+const SERVER = 'https://5ceb-46-216-116-73.ngrok.io/'
 
 
 class Server_api {
@@ -73,9 +73,9 @@ class Server_api {
     }
 
 
-    async get_news(api, data) {
+    async get_news(data) {
         try {
-            const res = await fetch(`${SERVER}home`, {
+            const res = await fetch(`${SERVER}home/?page=${data.page}&limit=${data.limit}`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
@@ -198,6 +198,10 @@ class Server_api {
     async editUser(data) {
         return this.putData('editUser',data)
     }
+
+    async getAllUsers() {
+        return this.getData('listUsers')
+    }
     
     async deleteUser(id) {
         return this.deleteData('deleteUser',id)
@@ -213,6 +217,10 @@ class Server_api {
 
     async getTrainers(){
         return this.getData('trainers')
+    }
+
+    async addSchedule(data){
+        return this.postData('addShedule',data)
     }
 }
 

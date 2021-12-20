@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react';
 import Server_api from '../services/server_api';
 
 const AddTrainer = props => {
+
+    let {userAdd=false,getAllUsers} = props;
     const [name, setName] = useState('')
     const [surname, setSurname] = useState('')
     const [phone, setPhone] = useState('')
@@ -41,7 +43,9 @@ const AddTrainer = props => {
             Phone: phone,
             TrainerDiscription: description,
         }
-        server_api.addTrainer(form)
+
+        if(!userAdd){
+            server_api.addTrainer(form)
             .then((data) => {
                 console.log(data);
                 //window.location.replace('/admin_trainers')
@@ -52,6 +56,28 @@ const AddTrainer = props => {
                 console.log(error);
                 alert(error)
             })
+        }else{
+            form = {
+                Login: login,
+                Password: password,
+                Name: name,
+                Surname: surname,
+                Phone: phone,
+            }
+            server_api.registerUser(form)
+                .then((data) => {
+                    console.log(props);
+                    getAllUsers()
+                    if(data.error) alert(data.error)
+                    //window.location.replace('/admin_trainers')
+                    props.onClose();
+                })
+                .catch((error) => {
+                    console.log(error);
+                    alert(error)
+                })
+        }
+        
 
     }
 
@@ -206,11 +232,15 @@ const AddTrainer = props => {
                     <div className="AddTrainer_Input_blok">
                         <input className="AddTrainer_Input" name='confirmPassword' onBlur={e => blurHandler(e)} value={confirmPassword} onChange={e => ConfirmPasswordHandler(e)}></input>
                     </div>
-                Описание
+
+                    {!userAdd&&<>
+                        Описание
                     <div className="AddTrainer_Input_blok">
                         <input className="AddTrainer_Input" name='description' onBlur={e => blurHandler(e)} value={description} onChange={e => DescriptionHandler(e)}></input>
                     </div>
 
+                    </>}
+               
 
                 </div>
 

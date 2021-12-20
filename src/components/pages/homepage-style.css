@@ -6,6 +6,24 @@
 
 }
 
+.MainNews .Buttons{
+    display: flex;
+}
+.MainNews .Buttons .Button{
+    width: auto;
+    margin: auto;
+}
+
+
+.MainNews .Buttons .Button > img{
+    width: 40px;
+    cursor: pointer;
+}
+
+.Rotate{
+    transform: rotate(180deg)
+}
+
 .Home_head{
     color: aliceblue;
     font-size: 60px;
