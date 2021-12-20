@@ -1,4 +1,4 @@
-.AdminCalls_main{
+.AdminNews_main{
     width: 100%;
     height: 663px;
     position: absolute;
@@ -6,20 +6,30 @@
 }
 
 
-.Calls_list{
+.News_list{
     background-color: aqua;
     margin-top: 10px;
-    height: 500px;
+    min-height: 500px;
 }
 
-.Calls_list .CallItem{
-    display: flex;
+.News_list .NewsItem{
     justify-content: space-between;
     padding: 10px;
     border-bottom: 2px solid grey;
 }
 
-.DeleteCalls_button{
+.AddNews_button{
+    background-color: #F4ECDC;
+    border-radius: 50px;
+    width: 250px;
+    height: 50px;
+    font-size: 20px;
+    display: block;
+    margin: auto;
+
+}
+
+.DeleteNews_button{
     background-color: #F4ECDC;
     border-radius: 50px;
     width: 300px;
@@ -34,7 +44,7 @@
 
 }
 
-.Calls_buttons{
+.News_buttons{
     display: table;
 
 }

@@ -19,6 +19,8 @@ import AdminUsers from '../pages/adminpage_users'
 import AdminCalls from '../pages/adminpage_calls'
 import TrainerPage from '../pages/trainerpage';
 import AddSchedule from '../pages/add_schedule';
+import AdminNews from '../pages/adminpage_news';
+import AddTrainingPage from '../pages/add_training_page';
 
 
 import Server_api from '../services/server_api';
@@ -36,7 +38,10 @@ class App extends React.Component {
         super(props);
         this.state = {
             userInfo: null,
-            isVisibleHeader: false,
+            // userInfo: {
+            //     role:3
+            // },
+            isVisibleHeader: true,
         }
     }
 
@@ -44,7 +49,8 @@ class App extends React.Component {
         if (Cookie_manager.get(Global_variables.loginCookieName) != null) {
             this.getUserInfo();
             this.setState({ isVisibleHeader: true })
-        } else if (document.location.pathname !== '/enter') {
+        } else if (document.location.pathname !== '/enter'&&document.location.pathname !== '/trainers'
+        &&document.location.pathname !== '/photos'&&document.location.pathname !== '/prices') {
             this.props.history.push('/enter')
         }
     }
@@ -52,7 +58,8 @@ class App extends React.Component {
 
     componentWillUpdate() {
         if (Cookie_manager.get(Global_variables.loginCookieName) != null) {
-        } else if (document.location.pathname !== '/enter') {
+        } else if (document.location.pathname !== '/enter'&&document.location.pathname !== '/trainers'
+        &&document.location.pathname !== '/photos'&&document.location.pathname !== '/prices') {
             this.props.history.push('/enter')
         }
     }
@@ -83,7 +90,10 @@ class App extends React.Component {
                 case 1: {
                     return (
                         <>
-                            <Route path='/trainers'>
+                            <Route path='/trainings'>
+                                <AddTrainingPage  userInfo={userInfo}/>
+                            </Route>
+                            {/* <Route path='/trainers'>
                                 <Trainers />
                             </Route>
 
@@ -93,7 +103,7 @@ class App extends React.Component {
 
                             <Route path='/prices'>
                                 <Prices />
-                            </Route>
+                            </Route> */}
                         </>
                     )
                     break;
@@ -133,6 +143,10 @@ class App extends React.Component {
                             <Route path='/admin_schedule'>
                                 <AddSchedule />
                             </Route>
+
+                            <Route path='/admin_news'>
+                                <AdminNews />
+                            </Route>
                         </>
                     )
                     break;
@@ -147,13 +161,13 @@ class App extends React.Component {
         this.setState({ obj })
     }
 
-    handleOnLogin =(data) =>{
+    handleOnLogin = (data) => {
         this.getUserInfo();
         this.setState(data)
     }
 
-    
-    handleOnLogOut=(data) =>{
+
+    handleOnLogOut = (data) => {
         this.getUserInfo();
         this.setState(data)
     }
@@ -162,19 +176,34 @@ class App extends React.Component {
         let { userInfo, isVisibleHeader } = this.state;
         return (
             <div className="Main">
-                {isVisibleHeader && 
-                <Header 
-                    userInfo={userInfo} 
-                    saveState={this.saveState}
-                    handleOnLogOut={this.handleOnLogOut}
-                     />}
+                {isVisibleHeader &&
+                    <Header
+                        userInfo={userInfo}
+                        saveState={this.saveState}
+                        handleOnLogOut={this.handleOnLogOut}
+                    />}
                 <React.StrictMode>
 
                     <Switch>
-                        <Route exact path='/'>
-                            <Home />
 
+                        <Route exact path='/'>
+                            <Home userInfo={userInfo}/>
                         </Route>
+
+
+                        <Route path='/trainers'>
+                            <Trainers />
+                        </Route>
+
+                        <Route path='/photos'>
+                            <Photos />
+                        </Route>
+
+                        <Route path='/prices'>
+                            <Prices />
+                        </Route>
+
+
                         {this.insertRoutes()}
                         <Route path='/enter'>
                             <Enter

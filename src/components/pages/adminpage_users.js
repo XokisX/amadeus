@@ -16,7 +16,7 @@ class AdminUsers extends React.Component {
         }
     }
 
-    с = () => {
+    getAllUsers = () => {
         this.server_api.getAllUsers()
             .then((data) => {
                 console.log()

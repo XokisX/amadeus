@@ -1,7 +1,7 @@
 import Cookie_manager from './cookie_manager';
 import Global_variables from './global_variables';
 
-const SERVER = 'https://5ceb-46-216-116-73.ngrok.io/'
+const SERVER = 'https://ef40-46-216-112-22.ngrok.io/'
 
 
 class Server_api {
@@ -221,6 +221,22 @@ class Server_api {
 
     async addSchedule(data){
         return this.postData('addShedule',data)
+    }
+
+    async addCall(data){
+        return this.postData('addCall',data)
+    }
+
+    async getCalls(){
+        return this.getData('getCalls')
+    }
+
+    async deleteCall(id){
+        return this.deleteData('deleteCall',id)
+    }
+
+    async getTraining(){
+        return this.getData('getTrainings')
     }
 }
 

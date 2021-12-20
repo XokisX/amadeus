@@ -1,14 +1,17 @@
 import React from 'react';
-import { Link,withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import '../header/header-style.css'
 import CookiesManager from '../services/cookie_manager';
 
 
 class Header extends React.Component {
 
-    _handleLogOut =()=>{
+    _handleLogOut = () => {
         CookiesManager.clearAll();
-        if(this.props.handleOnLogOut)this.props.handleOnLogOut({userInfo:null,isVisibleHeader:false})
+        if (this.props.handleOnLogOut) this.props.handleOnLogOut({ userInfo: null, isVisibleHeader: true })
+        this.props.history.push('/enter');
+    }
+    _handleLogIn = () =>{
         this.props.history.push('/enter');
     }
 
@@ -18,7 +21,7 @@ class Header extends React.Component {
 
         if (userInfo != null) {
 
-            const  renderNav  = () => {
+            const renderNav = () => {
                 if (userInfo.role === 1) {
                     return (
                         <>
@@ -26,6 +29,7 @@ class Header extends React.Component {
                             <Link className="Nav_link" to="/trainers">Тренера</Link>
                             <Link className="Nav_link" to="/photos">Фотоальбом</Link>
                             <Link className="Nav_link" to="/prices">Цены</Link>
+                            <Link className="Nav_link" to="/trainings">Тренировки</Link>
                         </>
                     )
                 } else if (userInfo.role === 3) {
@@ -35,9 +39,10 @@ class Header extends React.Component {
                             <Link className="Nav_link" to="/admin_trainers">Управление тренерами</Link>
                             <Link className="Nav_link" to="/admin_users">Управление пользователями</Link>
                             <Link className="Nav_link" to="/admin_calls">Управление звонками</Link>
+                            <Link className="Nav_link" to="/admin_news">Управление новостями</Link>
                         </>
                     )
-                }else return null;
+                } else return null;
                 return null;
             }
 
@@ -69,7 +74,30 @@ class Header extends React.Component {
 
             )
         }
-        return null;
+        return (
+            <div className="Up_string">
+                <div className="Logo">
+                    <img className="Logo_img" src={logo} alt={"logo"} />
+                    <p className="Logo_text">КСК"АМАДЕУС ФАВОРИТ"</p>
+                </div>
+                <nav className="Nav">
+                        <Link className="Nav_link" to="/trainers">Тренера</Link>
+                        <Link className="Nav_link" to="/photos">Фотоальбом</Link>
+                        <Link className="Nav_link" to="/prices">Цены</Link>
+                </nav>
+
+                <button onClick={this._handleLogIn}>Войти</button>
+                {/* <div className="Enter">
+                    <Link className="Enter_text" to="/enter" >Вход/Регистрация</Link>
+
+                </div> */}
+
+
+
+
+            </div>
+
+        )
     }
 }
 

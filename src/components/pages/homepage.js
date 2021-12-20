@@ -14,21 +14,21 @@ class Home extends React.Component {
             show: false,
             currentPage: 0,
             currentNumberOnPage: 1,
-      
+
         }
     }
 
-    getNews =()=>{
+    getNews = () => {
         this.server_api.get_news({ page: this.state.currentPage, limit: this.state.currentNumberOnPage })
-        .then((data) => {
-            this.setState({
-                data: data
+            .then((data) => {
+                this.setState({
+                    data: data
+                })
+                console.log(data);
             })
-            console.log(data);
-        })
-        .catch((error) => {
-            console.log(`Error fetch with getNews`, error)
-        })
+            .catch((error) => {
+                console.log(`Error fetch with getNews`, error)
+            })
     }
 
     componentDidMount() {
@@ -38,15 +38,15 @@ class Home extends React.Component {
     renderNews() {
         let { data } = this.state;
 
-        if (data != null&&data.news_element!=null&&Array.isArray(data.news_element)) {
+        if (data != null && data.news_element != null && Array.isArray(data.news_element)) {
             return (
                 data.news_element.map((item, index) => {
                     return (
-                        <p key = {index + item.Id} className="Home_head">
-                          {item.NewsHeading}
-                          <div>
-                              {item.NewsElement}
-                          </div>
+                        <p key={index + item.Id} className="Home_head">
+                            {item.NewsHeading}
+                            <div>
+                                {item.NewsElement}
+                            </div>
 
                         </p>
                     )
@@ -56,42 +56,61 @@ class Home extends React.Component {
         return null;
     }
 
-    
 
 
-    _handleOnPageClick = (action)=>{
-        let {data,currentNumberOnPage} = this.state;
-        let maxPage=0,minPage = 0;
-        maxPage = Math.trunc(data.news_count/currentNumberOnPage)-1;
+
+    _handleOnPageClick = (action) => {
+        let { data, currentNumberOnPage } = this.state;
+        let maxPage = 0, minPage = 0;
+        maxPage = Math.trunc(data.news_count / currentNumberOnPage) - 1;
 
 
-        switch(action){
-            case 'next':{
-                if(this.state.currentPage<maxPage){
+        switch (action) {
+            case 'next': {
+                if (this.state.currentPage < maxPage) {
                     this.setState({
-                        currentPage:this.state.currentPage+1
-                    },()=>{
+                        currentPage: this.state.currentPage + 1
+                    }, () => {
                         this.getNews();
                     })
                 }
-                
+
                 break;
             }
 
-            case 'prev':{
-                if(this.state.currentPage>minPage){
+            case 'prev': {
+                if (this.state.currentPage > minPage) {
                     this.setState({
-                        currentPage:this.state.currentPage-1
-                    },()=>{
+                        currentPage: this.state.currentPage - 1
+                    }, () => {
                         this.getNews();
                     })
                 }
-                
+
                 break;
             }
         }
-        
-       
+
+
+    }
+
+    _handleOnZakaz = () => {
+        let { userInfo } = this.props;
+        if (userInfo != null) {
+            let form = {
+                name: userInfo.name,
+                surname: userInfo.surname,
+                phone: userInfo.phone
+            }
+            this.server_api.addCall(form)
+                .then((data) => {
+
+                    alert(data);
+                })
+                .catch((error) => {
+                    console.log(`Error fetch with _handleOnZakaz`, error)
+                })
+        }
     }
 
 
@@ -113,19 +132,19 @@ class Home extends React.Component {
                 {this.renderNews()}
 
                 <div className="Buttons">
-                    <div className="Button">
-                        <img src={arrow} onClick={this._handleOnPageClick.bind(this,'prev')} className={'Rotate'} alt={''}/>
+                    <div className="ButtonPagin">
+                        <img src={arrow} onClick={this._handleOnPageClick.bind(this, 'prev')} className={'Rotate'} alt={''} />
                     </div>
 
-                    <div className="Button">
-                        <img src={arrow} onClick={this._handleOnPageClick.bind(this,'next')} alt={''}/>
+                    <div className="ButtonPagin">
+                        <img src={arrow} onClick={this._handleOnPageClick.bind(this, 'next')} alt={''} />
                     </div>
                 </div>
-                
-                <div className="Call_button" onClick={() => this.setState({ show: true })}  >
+
+                <div className="Call_button" onClick={() => this._handleOnZakaz()}  >
                     <a className="Call_text">Заказать звонок</a>
                 </div>
-                <Modal onClose={() => this.setState({ show: false })} show={this.state.show} />
+                {/* <Modal onClose={() => this.setState({ show: false })} show={this.state.show} /> */}
             </div>
         )
 

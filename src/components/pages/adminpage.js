@@ -18,6 +18,7 @@ class Admin extends React.Component{
                 <a className='Nav_link' href="/admin_trainers">Тренера</a>
                 <a className='Nav_link' href="/admin_users">Пользователи</a>
                 <a className='Nav_link' href="/admin_calls">Звонки</a>
+                <a className='Nav_link' href="/admin_news">Новости</a>
                 <button className='EditUsers_button' onClick={() => this.setState({show: true})}>
                             Добавить расписание
                 </button>
