@@ -117,7 +117,7 @@ class Home extends React.Component {
 
 
     render() {
-
+        let {userInfo} = this.props;
         const arrow = require('../images/right-arrow.png');
         return (
             <div className="MainNews">
@@ -141,9 +141,11 @@ class Home extends React.Component {
                     </div>
                 </div>
 
-                <div className="Call_button" onClick={() => this._handleOnZakaz()}  >
+                {userInfo!=null&&userInfo.role==1?(
+                    <div className="Call_button" onClick={() => this._handleOnZakaz()}  >
                     <a className="Call_text">Заказать звонок</a>
                 </div>
+                ):(null)}
                 {/* <Modal onClose={() => this.setState({ show: false })} show={this.state.show} /> */}
             </div>
         )

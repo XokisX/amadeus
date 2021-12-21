@@ -56,4 +56,8 @@
     text-align: right;
 }
 
-
+.ScheduleItem{
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 2px solid grey;
+}

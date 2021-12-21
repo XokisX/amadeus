@@ -112,10 +112,9 @@ class App extends React.Component {
                 case 2: {
                     return (
                         <>
-                            <Route path='/trainer'>
-                                <Admin />
+                           <Route path='/trainings'>
+                                <AddTrainingPage  userInfo={userInfo}/>
                             </Route>
-
                         </>
                     )
                     break;

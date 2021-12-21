@@ -238,6 +238,44 @@ class Server_api {
     async getTraining(){
         return this.getData('getTrainings')
     }
+
+    
+    async searchTrainings(data){
+        return this.postData('searchTrainings',data)
+    }
+
+    async addTrainingParticipant(data){
+        return this.postData('addTrainingParticipant',data)
+    }
+
+
+    async сhangeStatus(data) {
+        return this.putData('сhangeStatus',data)
+    }
+
+
+    async changeEquipmentNecessity(data) {
+        return this.putData('ChangeEquipmentNecessity',data)
+    }
+    async   deleteTrainingParticipant(form){
+        const res = await fetch(`${SERVER}deleteTrainingParticipant/?scheduleId=${form.scheduleId}&userId=${form.userId}`, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-type': 'application/json',
+                'Authorization': `Bearer ${Cookie_manager.get(Global_variables.loginCookieName)}`,
+            },
+        })
+        if (!res.ok) {
+            throw `Error with deleteTrainingParticipant`
+        }
+        return res.json();
+
+    }
+
+  
+
+    
 }
 
 export default Server_api;

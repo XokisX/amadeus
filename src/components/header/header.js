@@ -32,6 +32,13 @@ class Header extends React.Component {
                             <Link className="Nav_link" to="/trainings">Тренировки</Link>
                         </>
                     )
+                } else
+                if (userInfo.role === 2) {
+                    return (
+                        <>
+                            <Link className="Nav_link" to="/trainings">Тренировки</Link>
+                        </>
+                    )
                 } else if (userInfo.role === 3) {
                     return (
                         <>
