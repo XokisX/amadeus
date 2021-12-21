@@ -255,8 +255,9 @@ class Server_api {
 
 
     async changeEquipmentNecessity(data) {
-        return this.putData('ChangeEquipmentNecessity',data)
+        return this.putData('сhangeEquipmentNecessity',data)
     }
+    
     async   deleteTrainingParticipant(form){
         const res = await fetch(`${SERVER}deleteTrainingParticipant/?scheduleId=${form.scheduleId}&userId=${form.userId}`, {
             method: "DELETE",
